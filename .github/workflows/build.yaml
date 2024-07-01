@@ -41,12 +41,9 @@ jobs:
             mingw-w64-x86_64-ca-certificates
 
       - name: Build
-        uses: docker://ghcr.io/lite-xl/lite-xl-build-box:v2.2.0
-        with:
-          entrypoint: /entrypoint.sh
-          args: |
-            meson setup build  --buildtype=debugoptimized
-            meson install -C build --destdir ../install
+        run: |
+          meson setup build  --buildtype=debugoptimized
+          meson install -C build --destdir ../install
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
