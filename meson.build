@@ -24,7 +24,6 @@ else
         'tests=disabled',
         'tools=disabled',
         'cache-build=disabled',
-        'xml-backend=expat',
         'default_library=static',
     ]
     deps += dependency('fontconfig',
