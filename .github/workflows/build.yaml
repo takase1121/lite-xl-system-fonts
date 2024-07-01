@@ -13,7 +13,7 @@ jobs:
           entrypoint: /entrypoint.sh
           args: |
             meson setup build -Dfontconfig_dynamic=enabled --buildtype=debugoptimized
-            meson install -C build --destdir ../install
+            meson install -C build --skip-subprojects --destdir ../install
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -44,7 +44,7 @@ jobs:
       - name: Build
         run: |
           meson setup build --buildtype=debugoptimized --force-fallback-for=fontconfig,freetype2,zlib,png,expat
-          meson install -C build --destdir ../install
+          meson install -C build --skip-subprojects --destdir ../install
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
