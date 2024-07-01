@@ -1,0 +1,1 @@
+option('fontconfig_dynamic', type: 'feature', value: 'auto', description: 'Loads fontconfig from the system.')

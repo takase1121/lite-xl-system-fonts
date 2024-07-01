@@ -1,0 +1,55 @@
+name: build
+on: [push]
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        uses: docker://ghcr.io/lite-xl/lite-xl-build-box:v2.2.0
+        with:
+          entrypoint: /entrypoint.sh
+          args: |
+            meson setup build -Dfontconfig_dynamic=enabled --buildtype=debugoptimized
+            meson install -C build --destdir ../install
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: install
+
+  build_windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          update: true
+          install: >-
+            mingw-w64-x86_64-meson
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-ca-certificates
+
+      - name: Build
+        uses: docker://ghcr.io/lite-xl/lite-xl-build-box:v2.2.0
+        with:
+          entrypoint: /entrypoint.sh
+          args: |
+            meson setup build  --buildtype=debugoptimized
+            meson install -C build --destdir ../install
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: install
