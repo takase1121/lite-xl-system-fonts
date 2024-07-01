@@ -8,6 +8,7 @@ deps = []
 c_args = []
 if fc_dynamic.allowed()
     c_args += '-DFONTCONFIG_DYNAMIC'
+    deps += dependency('dl')
 else
     dependency('freetype2',
         static: true,
@@ -28,7 +29,7 @@ else
         required: true) 
 endif
 
-plugin = shared_library('systemfonts', 'systemfonts.c',
+plugin = shared_module('systemfonts', 'systemfonts.c',
     c_args: c_args,
     dependencies: deps,
     name_prefix: '',
