@@ -3,11 +3,13 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#define LFC_EXPORT __declspec(dllexport)
 #else
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 200809L
 #endif
 #include <time.h>
+#define LFC_EXPORT
 #endif
 
 #include "dyn_fontconfig.h"
@@ -546,7 +548,7 @@ static luaL_Reg lib[] = {
     {NULL, NULL},
 };
 
-int luaopen_systemfonts(lua_State *L)
+LFC_EXPORT int luaopen_systemfonts(lua_State *L)
 {
     luaL_newmetatable(L, LFC_TYPE_FCFONT);
     luaL_setfuncs(L, fc_meta, 0);
@@ -556,7 +558,7 @@ int luaopen_systemfonts(lua_State *L)
     return 1;
 }
 
-int luaopen_lite_xl_systemfonts(lua_State *L, void *XL)
+LFC_EXPORT int luaopen_lite_xl_systemfonts(lua_State *L, void *XL)
 {
     lite_xl_plugin_init(XL);
     return luaopen_systemfonts(L);
