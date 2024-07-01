@@ -43,7 +43,7 @@ jobs:
 
       - name: Build
         run: |
-          meson setup build --buildtype=debugoptimized --force-fallback-for=fontconfig,freetype2,zlib,png,expat
+          meson setup build --buildtype=debugoptimized --prefer-static --force-fallback-for=fontconfig,freetype2,zlib,png,expat
           meson install -C build --skip-subprojects --destdir ../install
 
       - name: Upload artifact
