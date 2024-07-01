@@ -10,6 +10,14 @@ if fc_dynamic.allowed()
     c_args += '-DFONTCONFIG_DYNAMIC'
     deps += dependency('dl')
 else
+    dependency('png',
+        static: true,
+        required: true,
+        default_options: ['default_library=static'])
+    dependency('zlib',
+        static: true,
+        required: true,
+        default_options: ['default_library=static'])
     dependency('freetype2',
         static: true,
         required: true,
