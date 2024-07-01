@@ -13,15 +13,19 @@ else
     dependency('freetype2',
         static: true,
         required: true,
-        default_options: ['harfbuzz=disabled'])
+        default_options: ['harfbuzz=disabled', 'default_library=static'])
+    dependency('expat',
+        static: true,
+        required: true,
+        default_options: ['default_library=static'])
     fc_opts = [
         'doc=disabled',
         'nls=disabled',
         'tests=disabled',
         'tools=disabled',
         'cache-build=disabled',
+        'xml-backend=expat',
         'default_library=static',
-        'prefer_static=true',
     ]
     deps += dependency('fontconfig',
         default_options: fc_opts,
