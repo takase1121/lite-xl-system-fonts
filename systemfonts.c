@@ -1,8 +1,9 @@
 #include <stddef.h>
 #include <string.h>
 
-#ifndef _WIN32
-
+#ifdef _WIN32
+#include <windows.h>
+#else
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 200809L
 #endif
@@ -157,9 +158,13 @@ static int get_function(lua_State *L, const char *table, const char *function)
 
 static double get_time()
 {
+#ifdef _WIN32
+    return (double) GetTickCount() / 1000;
+#else
     struct timespec spec;
     clock_gettime(CLOCK_MONOTONIC, &spec);
     return spec.tv_sec + spec.tv_nsec / 1.0e9;
+#endif
 }
 
 static int get_font_cache(lua_State *L, FcPattern *pattern)
