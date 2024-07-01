@@ -1,31 +1,17 @@
 project('lite-xl-system-fonts', 'c',
     version: '0.0.1',
-    license: 'MIT')
+    license: 'MIT',
+    default_options: ['default_library=static'])
 
 fc_dynamic = get_option('fontconfig_dynamic').disable_if(host_machine.system() == 'windows')
 
 deps = []
 c_args = []
+link_args = ['-static-libgcc']
 if fc_dynamic.allowed()
     c_args += '-DFONTCONFIG_DYNAMIC'
     deps += dependency('dl')
 else
-    dependency('libpng',
-        static: true,
-        required: true,
-        default_options: ['default_library=static'])
-    dependency('zlib',
-        static: true,
-        required: true,
-        default_options: ['default_library=static'])
-    dependency('freetype2',
-        static: true,
-        required: true,
-        default_options: ['harfbuzz=disabled', 'default_library=static'])
-    dependency('expat',
-        static: true,
-        required: true,
-        default_options: ['default_library=static'])
     fc_opts = [
         'doc=disabled',
         'nls=disabled',
@@ -42,6 +28,7 @@ endif
 
 plugin = shared_module('systemfonts', 'systemfonts.c',
     c_args: c_args,
+    link_args: link_args,
     dependencies: deps,
     name_prefix: '',
     install: true,
